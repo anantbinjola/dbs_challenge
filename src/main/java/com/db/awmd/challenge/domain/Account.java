@@ -14,7 +14,6 @@ import lombok.Data;
 
 @Data
 public class Account {
-
 	@NotNull
 	@NotEmpty
 	private final String accountId;

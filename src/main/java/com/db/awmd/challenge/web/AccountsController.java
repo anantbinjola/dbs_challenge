@@ -99,10 +99,10 @@ public class AccountsController {
 			Account fromAccount = accountsService.getAccount(amountTransfer.getAccountFrom());
 			Account toAccount = accountsService.getAccount(amountTransfer.getAccountTo());
 
-			String fromAccountDescr = String.format(FROM_ACCOUNT_NOTIFICATION, fromAccount.getAccountId(),
-					amountTransfer.getTransferAmount());
-			String toAccountDescr = String.format(TO_ACCOUNT_NOTIFICATION, toAccount.getAccountId(),
-					amountTransfer.getTransferAmount());
+			String fromAccountDescr = String.format(FROM_ACCOUNT_NOTIFICATION, amountTransfer.getTransferAmount(),
+					toAccount.getAccountId());
+			String toAccountDescr = String.format(TO_ACCOUNT_NOTIFICATION, amountTransfer.getTransferAmount(),
+					fromAccount.getAccountId());
 
 			notificationService.notifyAboutTransfer(fromAccount, fromAccountDescr);
 			notificationService.notifyAboutTransfer(toAccount, toAccountDescr);
