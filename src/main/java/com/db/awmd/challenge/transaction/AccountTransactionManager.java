@@ -61,6 +61,7 @@ public class AccountTransactionManager {
 			Account key = entry.getKey();
 			Account value = entry.getValue();
 			value.setBalance(key.getBalance());
+			value.setBlocked(key.isBlocked());
 		});
 	}
 	

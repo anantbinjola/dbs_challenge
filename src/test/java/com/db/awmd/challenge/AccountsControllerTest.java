@@ -1,8 +1,10 @@
 package com.db.awmd.challenge;
 
+import static com.db.awmd.challenge.constant.MessageConstants.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
@@ -99,7 +101,7 @@ public class AccountsControllerTest {
     this.mockMvc.perform(get("/v1/accounts/" + uniqueAccountId))
       .andExpect(status().isOk())
       .andExpect(
-        content().string("{\"accountId\":\"" + uniqueAccountId + "\",\"balance\":123.45}"));
+        content().string("{\"accountId\":\"" + uniqueAccountId + "\",\"balance\":123.45,\"blocked\":false}"));
   }
   
   //Added Test case for handling case where account id is not found.
@@ -123,4 +125,37 @@ public class AccountsControllerTest {
 	    this.mockMvc.perform(post("/v1/accounts/transfer/").contentType(MediaType.APPLICATION_JSON)
 	    	      .content("{\"accountFrom\":\"Id-360\",\"accountTo\":\"Id-361\",\"transferAmount\":100}")).andExpect(status().isAccepted());
   }
+  
+  @Test
+  public void blockAccount() throws Exception {
+	  	String accountId = "Id-362";
+	    Account account = new Account(accountId, new BigDecimal("123.45"));
+	    this.accountsService.createAccount(account);
+	    this.mockMvc.perform(put("/v1/accounts/block/"+accountId).contentType(MediaType.APPLICATION_JSON))
+	    		.andExpect(status().isOk()).andExpect(content().string(String.format(ACCOUNT_BLOCKED_SUCCESSFUL, accountId)));
+  }
+  
+  @Test
+  public void blockAccount_NonExistingAccount() throws Exception {
+	  	String accountId = "Id-363";
+	    this.mockMvc.perform(put("/v1/accounts/block/"+accountId).contentType(MediaType.APPLICATION_JSON))
+	    	      .andExpect(status().isInternalServerError()).andExpect(content().string(String.format(ACCOUNT_BLOCKED_UNSUCCESSFUL+"\n"+ACCOUNT_DOES_NOT_EXIST, accountId,accountId)));
+  }
+  
+  @Test
+  public void unblockAccount() throws Exception {
+	  	String accountId = "Id-364";
+	    Account account = new Account(accountId, new BigDecimal("123.45"),true);
+	    this.accountsService.createAccount(account);
+	    this.mockMvc.perform(put("/v1/accounts/unblock/"+accountId).contentType(MediaType.APPLICATION_JSON)
+	    	      .content(String.format(ACCOUNT_UNBLOCKED_SUCCESSFUL, accountId))).andExpect(status().isOk());
+  }
+  
+  @Test
+  public void unblockAccount_NonExistingAccount() throws Exception {
+	  	String accountId = "Id-365";
+	    this.mockMvc.perform(put("/v1/accounts/unblock/"+accountId).contentType(MediaType.APPLICATION_JSON))
+	    .andExpect(status().isInternalServerError()).andExpect(content().string(String.format(ACCOUNT_UNBLOCKED_UNSUCCESSFUL+"\n"+ACCOUNT_DOES_NOT_EXIST, accountId,accountId)));
+  }
+  
 }
