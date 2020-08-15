@@ -1,13 +1,6 @@
 package com.db.awmd.challenge.web;
 
-import static com.db.awmd.challenge.constant.MessageConstants.ACCOUNT_BLOCKED_SUCCESSFUL;
-import static com.db.awmd.challenge.constant.MessageConstants.ACCOUNT_BLOCKED_UNSUCCESSFUL;
-import static com.db.awmd.challenge.constant.MessageConstants.ACCOUNT_CREATED;
-import static com.db.awmd.challenge.constant.MessageConstants.ACCOUNT_DOES_NOT_EXIST;
-import static com.db.awmd.challenge.constant.MessageConstants.ACCOUNT_UNBLOCKED_SUCCESSFUL;
-import static com.db.awmd.challenge.constant.MessageConstants.ACCOUNT_UNBLOCKED_UNSUCCESSFUL;
-import static com.db.awmd.challenge.constant.MessageConstants.FROM_ACCOUNT_NOTIFICATION;
-import static com.db.awmd.challenge.constant.MessageConstants.TO_ACCOUNT_NOTIFICATION;
+import static com.db.awmd.challenge.constant.MessageConstants.*;
 
 import javax.validation.Valid;
 
