@@ -83,7 +83,7 @@ public class AccountsServiceTest {
   }
   
   @Test
-  public void amountTransfer_TransactionRollBackOnNonExistingAccount() throws Exception {
+  public void amountTransfer_TransactionRollBackOnNonExistingToAccount() throws Exception {
 	  	//make transfer To an Account which do not exist
 	  	Account accountFrom = new Account("Id-360");
 	  	accountFrom.setBalance(new BigDecimal(1000));
@@ -98,6 +98,7 @@ public class AccountsServiceTest {
   }
   
   //adding test cases to increase coverage
+  //UnitTest to test case when from account does not exist.
   @Test
   public void amountTransfer_TransactionRollBackOnNonExistingFromAccount() throws Exception {
 	  	//make transfer To an Account which do not exist

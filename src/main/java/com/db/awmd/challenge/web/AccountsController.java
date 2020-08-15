@@ -21,6 +21,8 @@ import com.db.awmd.challenge.exception.DuplicateAccountIdException;
 import com.db.awmd.challenge.service.AccountsService;
 import com.db.awmd.challenge.service.NotificationService;
 
+import static com.db.awmd.challenge.constant.MessageConstants.*;
+
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -67,8 +69,8 @@ public class AccountsController {
 			Account fromAccount = accountsService.getAccount(amountTransfer.getAccountFrom());
 			Account toAccount = accountsService.getAccount(amountTransfer.getAccountTo());
 			
-			String fromAccountDescr = "Account Id: " + fromAccount.getAccountId() + ". Amount Debited: " + amountTransfer.getTransferAmount();
-			String toAccountDescr = "Account Id: " + toAccount.getAccountId() + ". Amount Credited: " + amountTransfer.getTransferAmount();
+			String fromAccountDescr = String.format(FROM_ACCOUNT_NOTIFICATION, fromAccount.getAccountId(),amountTransfer.getTransferAmount());
+			String toAccountDescr = String.format(TO_ACCOUNT_NOTIFICATION, toAccount.getAccountId(),amountTransfer.getTransferAmount());
 			
 			notificationService.notifyAboutTransfer(fromAccount, fromAccountDescr);
 			notificationService.notifyAboutTransfer(toAccount, toAccountDescr);
