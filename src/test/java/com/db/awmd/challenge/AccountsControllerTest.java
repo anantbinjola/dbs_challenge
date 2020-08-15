@@ -102,6 +102,15 @@ public class AccountsControllerTest {
         content().string("{\"accountId\":\"" + uniqueAccountId + "\",\"balance\":123.45}"));
   }
   
+  //Added Test case for handling case where account id is not found.
+  //Returning 404 not found status
+  @Test
+  public void getAccount_NonExistent() throws Exception {
+    String uniqueAccountId = "Id-" + System.currentTimeMillis();
+    this.mockMvc.perform(get("/v1/accounts/" + uniqueAccountId))
+      .andExpect(status().isNotFound());
+  }
+  
   @Test
   public void amountTransfer() throws Exception {
 	  	String accountIdFrom = "Id-360";

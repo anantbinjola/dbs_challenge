@@ -1,5 +1,6 @@
 package com.db.awmd.challenge.service;
 
+import static com.db.awmd.challenge.constant.MessageConstants.*;
 import java.math.BigDecimal;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,10 +55,10 @@ public class AccountsService {
   		// OR method annotated with @AccountTransaction.
 		final Account account = transactionManager.getRepoProxy().getAccount(accountId);
 		if(account == null) {
-			throw new AmountTransferException("Account does not exist");
+			throw new AmountTransferException(String.format(ACCOUNT_DOES_NOT_EXIST, accountId));
 		}
 		if(account.getBalance().compareTo(amount) == -1) {
-			throw new AmountTransferException("Insufficient balance in account");
+			throw new AmountTransferException(String.format(INSUFFICIENT_BALANCE, accountId));
 		}
 		BigDecimal bal = account.getBalance().subtract(amount);
 		account.setBalance(bal);
@@ -70,7 +71,7 @@ public class AccountsService {
   		// OR method annotated with @AccountTransaction.
 		final Account account = transactionManager.getRepoProxy().getAccount(accountId);
 		if(account == null) {
-			throw new AmountTransferException("Account does not exist");
+			throw new AmountTransferException(String.format(ACCOUNT_DOES_NOT_EXIST, accountId));
 		}
 		BigDecimal bal = account.getBalance().add(amount);
 		account.setBalance(bal);

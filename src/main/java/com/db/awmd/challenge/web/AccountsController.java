@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.annotation.ResponseStatusExceptionResolver;
 
 import com.db.awmd.challenge.domain.Account;
 import com.db.awmd.challenge.domain.AmountTransfer;
@@ -50,13 +51,17 @@ public class AccountsController {
 			return new ResponseEntity<>(daie.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 
-		return new ResponseEntity<>(HttpStatus.CREATED);
+		return new ResponseEntity<>(String.format(ACCOUNT_CREATED, account.getAccountId()),HttpStatus.CREATED);
 	}
 
 	@GetMapping(path = "/{accountId}")
-	public Account getAccount(@PathVariable String accountId) {
+	public ResponseEntity<Object> getAccount(@PathVariable String accountId) {
 		log.info("Retrieving account for id {}", accountId);
-		return this.accountsService.getAccount(accountId);
+		Account account = this.accountsService.getAccount(accountId);
+		if(account==null) {
+			return new ResponseEntity<>(String.format(ACCOUNT_DOES_NOT_EXIST, accountId), HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(account, HttpStatus.OK);
 	}
 
 	@PostMapping(path = "/transfer", consumes = MediaType.APPLICATION_JSON_VALUE)
