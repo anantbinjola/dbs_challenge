@@ -13,5 +13,5 @@ public class MessageConstants {
 	public static final String ACCOUNT_IS_BLOCKED = "Account %s is blocked from performing transactions";
 	public static final String INSUFFICIENT_BALANCE = "Insufficient balance in account %s";
 	public static final String ACCOUNT_ALREADY_EXIST = "Account id %s already exists!";
-
+	public static final String INVALID_AMOUNT= "Invalid amount. Amount cannot be negative.";
 }

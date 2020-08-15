@@ -92,7 +92,7 @@ public class AccountsController {
 	@PostMapping(path = "/transfer", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> amountTransfer(@RequestBody @Valid AmountTransfer amountTransfer) {
 		try {
-
+			
 			this.accountsService.amountTransfer(amountTransfer.getAccountFrom(), amountTransfer.getAccountTo(),
 					amountTransfer.getTransferAmount());
 

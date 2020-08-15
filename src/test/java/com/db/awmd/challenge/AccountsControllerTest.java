@@ -127,6 +127,19 @@ public class AccountsControllerTest {
   }
   
   @Test
+  public void amountTransfer_InvalidAmount() throws Exception {
+	  	String accountIdFrom = "Id-360";
+	    Account accountFrom = new Account(accountIdFrom, new BigDecimal("123.45"));
+	    this.accountsService.createAccount(accountFrom);
+	    String accountIdTo = "Id-361";
+	    Account accountTo = new Account(accountIdTo, new BigDecimal("123.45"));
+	    this.accountsService.createAccount(accountTo);
+	    
+	    this.mockMvc.perform(post("/v1/accounts/transfer/").contentType(MediaType.APPLICATION_JSON)
+	    	      .content("{\"accountFrom\":\"Id-360\",\"accountTo\":\"Id-361\",\"transferAmount\":-100}")).andExpect(status().isBadRequest());
+  }
+  
+  @Test
   public void blockAccount() throws Exception {
 	  	String accountId = "Id-362";
 	    Account account = new Account(accountId, new BigDecimal("123.45"));

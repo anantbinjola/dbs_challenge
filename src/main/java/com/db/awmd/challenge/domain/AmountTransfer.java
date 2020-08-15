@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import com.db.awmd.challenge.constant.MessageConstants;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -20,7 +21,7 @@ public class AmountTransfer {
 	private String accountTo;
 	
 	@NotNull
-	@Min(value = 0, message = "Initial balance must be positive.")
+	@Min(value = 0, message = MessageConstants.INVALID_AMOUNT)
 	private BigDecimal transferAmount;
 	
 	@JsonCreator
