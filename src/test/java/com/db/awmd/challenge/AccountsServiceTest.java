@@ -3,15 +3,17 @@ package com.db.awmd.challenge;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
 
-import com.db.awmd.challenge.domain.Account;
-import com.db.awmd.challenge.exception.DuplicateAccountIdException;
-import com.db.awmd.challenge.service.AccountsService;
 import java.math.BigDecimal;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import com.db.awmd.challenge.domain.Account;
+import com.db.awmd.challenge.exception.DuplicateAccountIdException;
+import com.db.awmd.challenge.service.AccountsService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -93,6 +95,22 @@ public class AccountsServiceTest {
 	    }
 	  	//Transaction will be rollBack and no debit will happen
 	    assertThat(this.accountsService.getAccount("Id-360").getBalance()).isEqualTo(new BigDecimal(1000));
-
   }
+  
+  //adding test cases to increase coverage
+  @Test
+  public void amountTransfer_TransactionRollBackOnNonExistingFromAccount() throws Exception {
+	  	//make transfer To an Account which do not exist
+	  	Account accountFrom = new Account("Id-362");
+	  	accountFrom.setBalance(new BigDecimal(1000));
+	    this.accountsService.createAccount(accountFrom);
+	    try {
+	    	this.accountsService.amountTransfer("Id-365", "Id-362", new BigDecimal(500));
+	    }catch(Exception e) {
+	    	assertThat(e.getMessage()).isEqualTo("Account does not exist");
+	    }
+	  	//Transaction will be rollBack and no debit will happen
+	    assertThat(this.accountsService.getAccount("Id-362").getBalance()).isEqualTo(new BigDecimal(1000));
+  }
+  
 }

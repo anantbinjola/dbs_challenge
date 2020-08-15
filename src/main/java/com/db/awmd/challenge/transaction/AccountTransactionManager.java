@@ -17,7 +17,7 @@ public class AccountTransactionManager {
 
 	private final AccountsRepository accountsRepository;
 	
-	private TransacrionInvocationHandler<Account> handler;
+	private TransactionInvocationHandler<Account> handler;
 	
 	@Getter
 	private boolean autoCommit = false;
@@ -28,7 +28,7 @@ public class AccountTransactionManager {
 	public AccountTransactionManager(AccountsRepository repository){
 		this.accountsRepository = repository;
 		
-		handler = new TransacrionInvocationHandler<Account>(accountsRepository);
+		handler = new TransactionInvocationHandler<Account>(accountsRepository);
 		repoProxy = (AccountsRepository)Proxy.newProxyInstance(AccountsRepository.class.getClassLoader()
 				, new Class[] { AccountsRepository.class }, handler);
 		

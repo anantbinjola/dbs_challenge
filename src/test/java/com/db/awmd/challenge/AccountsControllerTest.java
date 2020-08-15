@@ -30,7 +30,7 @@ public class AccountsControllerTest {
 
   @Autowired
   private AccountsService accountsService;
-
+  
   @Autowired
   private WebApplicationContext webApplicationContext;
 
